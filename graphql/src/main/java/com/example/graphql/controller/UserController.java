@@ -10,10 +10,6 @@ import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import com.example.graphql.entity.User;
 import com.example.graphql.service.userImple.UserImplement;
@@ -45,14 +41,14 @@ public class UserController {
 
   }
 
-  @MutationMapping
-  public ResponseEntity<?> createUser(@Argument String name, @Argument String email, @Argument String address) {
+  @MutationMapping("createUserMutation")
+  public ResponseEntity<?> createUserMutation(@Argument String name, @Argument String email, @Argument String address) {
     User resp = userImplement.creatUser(new User(null, name, email, null, address));
     return new ResponseEntity<>(resp, HttpStatus.CREATED);
   }
 
-  @DeleteMapping("/{id}")
-  public ResponseEntity<?> deleteUser(@PathVariable Long id) {
+  @MutationMapping("deleteUserMutation")
+  public ResponseEntity<?> deleteUserMutation(@Argument Long id) {
     boolean delete = userImplement.deleteById(id);
     if (delete) {
       return ResponseEntity.ok().build();
@@ -61,8 +57,8 @@ public class UserController {
     }
   }
 
-  @PutMapping("/{id}")
-  public ResponseEntity<?> updateUser(@RequestBody User user, @PathVariable Long id) {
+  @MutationMapping
+  public ResponseEntity<?> updateUserMutation(@Argument User user, @Argument Long id) {
     User updateUser = userImplement.updateUser(user, id);
     if (updateUser != null) {
       return ResponseEntity.ok(Map.of("message", "Updated successfully"));

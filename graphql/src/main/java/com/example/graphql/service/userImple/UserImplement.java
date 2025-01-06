@@ -59,14 +59,24 @@ public class UserImplement implements UserService {
 
   }
 
+  // @Override
+  // public User updateUser(User user, Long id) {
+  // if (userRepo.existsById(id)) {
+  // user.setId(id);
+  // return userRepo.save(user);
+  // } else {
+  // return null;
+  // }
+  // }
+
   @Override
   public User updateUser(User user, Long id) {
-    if (userRepo.existsById(id)) {
-      user.setId(id);
-      return userRepo.save(user);
-    } else {
-      return null;
-    }
+    User existingUser = userRepo.findById(id)
+        .orElseThrow(() -> new RuntimeException("User not found with ID: " + id));
+    existingUser.setName(user.getName());
+    existingUser.setEmail(user.getEmail());
+    existingUser.setAddress(user.getAddress());
+    return userRepo.save(existingUser);
 
   }
 
