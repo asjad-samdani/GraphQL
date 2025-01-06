@@ -3,7 +3,6 @@ package com.example.graphql.controller;
 import java.util.List;
 import java.util.Map;
 
-import org.aspectj.weaver.patterns.TypePatternQuestions.Question;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
