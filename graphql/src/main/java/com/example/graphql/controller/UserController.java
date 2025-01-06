@@ -3,6 +3,7 @@ package com.example.graphql.controller;
 import java.util.List;
 import java.util.Map;
 
+import org.aspectj.weaver.patterns.TypePatternQuestions.Question;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
@@ -12,6 +13,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import com.example.graphql.entity.User;
 import com.example.graphql.service.userImple.UserImplement;
@@ -57,6 +60,20 @@ public class UserController {
     } else {
       return ResponseEntity.status(404).body("User not found with ID: " + id);
     }
+  }
+
+  @PutMapping("/{id}")
+  public ResponseEntity<?> updateUser(@RequestBody User user, @PathVariable Long id) {
+    User updateUser = userImplement.updateUser(user, id);
+    if (updateUser != null) {
+      return ResponseEntity.ok(Map.of("message", "Updated successfully"));
+
+    } else {
+      return ResponseEntity.status(HttpStatus.NOT_FOUND)
+          .body(Map.of("message", "Question not found or update failed"));
+
+    }
+
   }
 
 }

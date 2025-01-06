@@ -59,4 +59,15 @@ public class UserImplement implements UserService {
 
   }
 
+  @Override
+  public User updateUser(User user, Long id) {
+    if (userRepo.existsById(id)) {
+      user.setId(id);
+      return userRepo.save(user);
+    } else {
+      return null;
+    }
+
+  }
+
 }
