@@ -47,4 +47,16 @@ public class UserImplement implements UserService {
   public User getUserById(Long id) {
     return userRepo.findById(id).orElseThrow(() -> new RuntimeException("User not found with ID: " + id));
   }
+
+  @Override
+  public boolean deleteById(Long id) {
+    if (userRepo.existsById(id)) {
+      userRepo.deleteById(id);
+      return true;
+    } else {
+      return false;
+    }
+
+  }
+
 }

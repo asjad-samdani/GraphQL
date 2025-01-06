@@ -10,6 +10,8 @@ import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import com.example.graphql.entity.User;
 import com.example.graphql.service.userImple.UserImplement;
@@ -45,6 +47,16 @@ public class UserController {
   public ResponseEntity<?> createUser(@Argument String name, @Argument String email, @Argument String address) {
     User resp = userImplement.creatUser(new User(null, name, email, null, address));
     return new ResponseEntity<>(resp, HttpStatus.CREATED);
+  }
+
+  @DeleteMapping("/{id}")
+  public ResponseEntity<?> deleteUser(@PathVariable Long id) {
+    boolean delete = userImplement.deleteById(id);
+    if (delete) {
+      return ResponseEntity.ok().build();
+    } else {
+      return ResponseEntity.status(404).body("User not found with ID: " + id);
+    }
   }
 
 }
